@@ -52,6 +52,11 @@ jobs:
           echo "version_tag=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_OUTPUT
           echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
+      - name: Patch out io.weight
+        run: |
+          chmod +x ./patch-ioweight.sh
+          ./patch-ioweight.sh
+
       - name: Build and Push (tag)
         uses: docker/build-push-action@14487ce63c7a62a4a324b0bfb37086795e31c6c1 # v6.16.0
         if: "github.event_name == 'release' && github.event.action == 'published'"
